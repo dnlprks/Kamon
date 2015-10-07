@@ -23,7 +23,7 @@ object Projects extends Build {
 
   lazy val kamon = Project("kamon", file("."))
     .aggregate(kamonCore, kamonScala, kamonAkka, kamonSpray, kamonNewrelic, kamonPlayground, kamonTestkit,
-      kamonStatsD, kamonDatadog, kamonSPM, kamonSystemMetrics, kamonLogReporter, kamonAkkaRemote, kamonJdbc, kamonAnnotation, kamonPlay23, kamonPlay24)
+      kamonStatsD, kamonDatadog, kamonSPM, kamonSystemMetrics, kamonLogReporter, kamonAkkaRemote, kamonJdbc, kamonAnnotation, kamonPlay23, kamonPlay24, kamonCloudWatch)
     .settings(basicSettings: _*)
     .settings(formatSettings: _*)
     .settings(noPublishing: _*)
@@ -214,6 +214,16 @@ object Projects extends Build {
       libraryDependencies ++=
         compile(sprayCan, sprayClient, sprayRouting, sprayJson, sprayJsonLenses, newrelic, akkaSlf4j) ++
         test(scalatest, akkaTestKit, slf4Api, slf4nop))
+
+  lazy val kamonCloudWatch = Project("kamon-cloudwatch", file("kamon-cloudwatch"))
+    .dependsOn(kamonCore % "compile->compile;test->test")
+    .settings(basicSettings: _*)
+    .settings(formatSettings: _*)
+    .settings(
+      libraryDependencies ++=
+        compile(akkaActor) ++
+          provided(awsCloudWatch) ++
+          test(scalatest, akkaTestKit, slf4Api, slf4nop))
 
   val noPublishing = Seq(publish := (), publishLocal := (), publishArtifact := false)
 }
