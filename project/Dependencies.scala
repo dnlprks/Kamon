@@ -63,9 +63,9 @@ object Dependencies {
   val khronusClient     = "com.despegar"              %   "khronus-java-client"   % "0.0.5"
 
   //play 2.3.x
-  val play23            = "com.typesafe.play"         %%  "play"                  % play23Version
-  val playWS23          = "com.typesafe.play"         %%  "play-ws"               % play23Version
-  val playTest23        = "org.scalatestplus"         %%  "play"                  % "1.2.0"
+  val play23            = "com.typesafe.play"         %%  "play"                           % play23Version
+  val playWS23          = "com.typesafe.play"         %%  "play-ws"                        % play23Version
+  val playTest23        = "org.scalatestplus"         %%  "play"                           % "1.2.0"
 
   //play 2.4.x
   val play24            = "com.typesafe.play"         %%  "play"                  % play24Version
@@ -81,6 +81,8 @@ object Dependencies {
   val elasticsearch     = "org.elasticsearch"         %   "elasticsearch"         % elasticsearchVersion
 
   val libThrift         = "org.apache.thrift"         %   "libthrift"             % "0.9.2"
+
+  val awsCloudWatch     = "com.amazonaws"             %   "aws-java-sdk-cloudwatchmetrics" % "1.11.29"
 
   def compile   (deps: ModuleID*): Seq[ModuleID] = deps map (_ % "compile")
   def provided  (deps: ModuleID*): Seq[ModuleID] = deps map (_ % "provided")

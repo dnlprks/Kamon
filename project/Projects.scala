@@ -26,7 +26,7 @@ object Projects extends Build {
     .enablePlugins(CrossPerProjectPlugin)
     .aggregate(kamonCore, kamonScala, kamonAkka, kamonSpray, kamonNewrelic, kamonPlayground, kamonTestkit,
       kamonStatsD, kamonRiemann, kamonDatadog, kamonSPM, kamonSystemMetrics, kamonLogReporter, kamonAkkaRemote, kamonJdbc, kamonElasticsearch,
-      kamonAnnotation, kamonPlay23, kamonPlay24, kamonPlay25, kamonJMXReporter, kamonFluentd, kamonKhronus,
+      kamonAnnotation, kamonPlay23, kamonPlay24, kamonPlay25, kamonJMXReporter, kamonFluentd, kamonKhronus, kamonCloudWatch,
       kamonAutoweave, kamonInfluxDB)
     .settings(basicSettings: _*)
     .settings(formatSettings: _*)
@@ -297,5 +297,14 @@ object Projects extends Build {
         compile(khronusClient) ++
           test(scalatest, easyMock))
 
+  lazy val kamonCloudWatch = Project("kamon-cloudwatch", file("kamon-cloudwatch"))
+    .dependsOn(kamonCore % "compile->compile;test->test")
+    .settings(basicSettings: _*)
+    .settings(formatSettings: _*)
+    .settings(
+      libraryDependencies ++=
+        compile(akkaActor) ++
+          provided(awsCloudWatch) ++
+          test(scalatest, akkaTestKit, slf4jApi, slf4jnop))
   val noPublishing = Seq(publish := (), publishLocal := (), publishArtifact := false)
 }
